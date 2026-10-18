@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Photo to PDF</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>Photo to PDF</h1>
+    <div class="topbar-actions">
+      <label class="btn">
+        Add photos
+        <input id="fileInput" type="file" accept="image/*" multiple hidden>
+      </label>
+      <label class="btn only-touch">
+        Camera
+        <input id="cameraInput" type="file" accept="image/*" capture="environment" hidden>
+      </label>
+      <button id="settingsToggle" class="btn" type="button" aria-expanded="false">Output</button>
+      <button id="exportBtn" class="btn primary" type="button" disabled>Export PDF</button>
+    </div>
+  </header>
+
+  <section id="settingsPanel" class="settings" hidden>
+    <label>Page size
+      <select id="pageSize">
+        <option value="a4">A4</option>
+        <option value="letter">Letter</option>
+        <option value="legal">Legal</option>
+        <option value="fit">Keep crop aspect</option>
+      </select>
+    </label>
+    <label>Resolution
+      <select id="dpi">
+        <option value="150">150 DPI (small)</option>
+        <option value="200">200 DPI</option>
+        <option value="300">300 DPI (sharp)</option>
+      </select>
+    </label>
+    <label>JPEG quality
+      <select id="quality">
+        <option value="0.75">Compact</option>
+        <option value="0.85">Normal</option>
+        <option value="0.95">High</option>
+      </select>
+    </label>
+    <label>File name
+      <input id="fileName" type="text" spellcheck="false">
+    </label>
+  </section>
+
+  <main id="app" class="empty">
+    <div id="dropzone" class="dropzone">
+      <p class="dz-title">Drop photos here</p>
+      <p class="dz-sub">or use <strong>Add photos</strong>. Everything stays in your browser.</p>
+    </div>
+
+    <aside class="strip" aria-label="Pages">
+      <ol id="pageList"></ol>
+    </aside>
+
+    <section class="editor">
+      <div class="pane-head">
+        <span>Crop: drag the corners</span>
+        <span class="hint">Highlighted edge = top of page</span>
+      </div>
+      <div id="editorWrap" class="canvas-wrap">
+        <canvas id="editorCanvas" tabindex="0" aria-label="Crop corners"></canvas>
+      </div>
+    </section>
+
+    <section class="side">
+      <div class="pane-head">
+        <span>Preview</span>
+        <span id="pageInfo" class="hint"></span>
+      </div>
+      <div id="previewWrap" class="canvas-wrap preview-wrap">
+        <canvas id="previewCanvas"></canvas>
+      </div>
+
+      <div class="controls">
+        <div class="filters" id="filterButtons" role="radiogroup" aria-label="Filter"></div>
+
+        <label class="slider">Brightness
+          <input id="brightness" type="range" min="-100" max="100" value="0">
+        </label>
+        <label class="slider" id="contrastRow">Contrast
+          <input id="contrast" type="range" min="-100" max="100" value="0">
+        </label>
+
+        <div class="row">
+          <button class="btn" id="rotL" type="button" title="Rotate left">⟲ Rotate</button>
+          <button class="btn" id="rotR" type="button" title="Rotate right">Rotate ⟳</button>
+          <button class="btn" id="autoBtn" type="button">Auto-detect</button>
+          <button class="btn" id="fullBtn" type="button">Full image</button>
+        </div>
+        <div class="row">
+          <button class="btn" id="applyAllBtn" type="button">Use these adjustments on all pages</button>
+          <button class="btn danger" id="deleteBtn" type="button">Delete page</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="overlay" class="overlay" hidden>
+    <div class="overlay-box">
+      <div id="overlayText">Working…</div>
+      <progress id="overlayProgress" max="1" value="0"></progress>
+    </div>
+  </div>
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="js/warp.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/detect.js"></script>
+  <script src="js/pdf.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
